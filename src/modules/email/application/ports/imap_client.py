@@ -17,5 +17,9 @@ class ImapClientPort(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    async def get_latest_uid(self) -> int:
+        raise NotImplementedError
+
+    @abstractmethod
     async def disconnect(self) -> None:
         raise NotImplementedError

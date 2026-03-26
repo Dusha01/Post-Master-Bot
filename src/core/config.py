@@ -5,6 +5,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class TelegramSettings(BaseModel):
     bot_token: str
     chat_id: str
+    retry_base_sec: float = 3.0
+    retry_max_sec: float = 60.0
+    allow_user_id: int
+    proxy_url: str | None = None
 
 
 class ImapProviderSettings(BaseModel):
@@ -18,6 +22,7 @@ class ImapProviderSettings(BaseModel):
 class ImapSettings(BaseModel):
     gmail: ImapProviderSettings
     yandex: ImapProviderSettings
+    idle_timeout_sec: int = 60
 
 
 class Config(BaseSettings):
@@ -29,6 +34,10 @@ class Config(BaseSettings):
 
     TELEGRAM_BOT_TOKEN: str
     CHAT_ID: str
+    TG_RETRY_BASE_SEC: float = 3.0
+    TG_RETRY_MAX_SEC: float = 60.0
+    ALLOW_USER_ID: int
+    TG_PROXY_URL: str | None = None
 
     IMAP_SERVER_GMAIL: str = "imap.gmail.com"
     IMAP_PORT_GMAIL: int = 993
@@ -41,6 +50,7 @@ class Config(BaseSettings):
     IMAP_USERNAME_YANDEX: str = ""
     IMAP_PASSWORD_YANDEX: str = ""
     IMAP_USE_SSL_YANDEX: bool = True
+    IMAP_IDLE_TIMEOUT_SEC: int = 60
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -54,6 +64,10 @@ class Config(BaseSettings):
         return TelegramSettings(
             bot_token=self.TELEGRAM_BOT_TOKEN,
             chat_id=self.CHAT_ID,
+            retry_base_sec=self.TG_RETRY_BASE_SEC,
+            retry_max_sec=self.TG_RETRY_MAX_SEC,
+            allow_user_id=self.ALLOW_USER_ID,
+            proxy_url=self.TG_PROXY_URL or None,
         )
 
     @property
@@ -73,5 +87,5 @@ class Config(BaseSettings):
                 password=self.IMAP_PASSWORD_YANDEX,
                 use_ssl=self.IMAP_USE_SSL_YANDEX,
             ),
+            idle_timeout_sec=self.IMAP_IDLE_TIMEOUT_SEC,
         )
-

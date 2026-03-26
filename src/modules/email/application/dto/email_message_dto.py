@@ -4,6 +4,7 @@ from datetime import datetime
 
 @dataclass(slots=True)
 class EmailMessageDTO:
+    uid: int
     provider: str
     message_id: str
     subject: str
