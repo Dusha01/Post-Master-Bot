@@ -1,0 +1,10 @@
+# Запуск из корня репозитория: docker compose -f Docker/docker-compose.yml up -d --build
+services:
+  post-master-bot:
+    build:
+      context: ..
+      dockerfile: Docker/Dockerfile
+    image: post-master-bot:latest
+    container_name: post-master-bot
+    restart: unless-stopped
+    env_file: ../.env

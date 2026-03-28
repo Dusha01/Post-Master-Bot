@@ -10,4 +10,6 @@ class EmailMessageDTO:
     subject: str
     sender: str
     received_at: datetime
-    body_preview: str
+    body_main: str
+    body_signature: str | None
+    attachment_count: int
